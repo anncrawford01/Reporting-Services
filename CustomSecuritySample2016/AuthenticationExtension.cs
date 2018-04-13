@@ -28,6 +28,7 @@ using System.Security.Principal;
 using System.Web;
 using Microsoft.ReportingServices.Interfaces;
 using System.Globalization;
+using System.DirectoryServices.AccountManagement; // needed for active directory look up 
 
 namespace Microsoft.Samples.ReportingServices.CustomSecurity
 {
@@ -138,38 +139,55 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
 
       // 
        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-      public static bool VerifyUser(string userName)
+        // Modified ann crawford 4/12/2018 remove reference to db add active directory
+
+        public static bool VerifyUser(string userName)
       { 
          bool isValid = false;
-         using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.Database_ConnectionString))
-		    {
-			    SqlCommand cmd = new SqlCommand("LookupUser", conn);
-			    cmd.CommandType = CommandType.StoredProcedure;
-
-			    SqlParameter sqlParam = cmd.Parameters.Add("@userName",
-				    SqlDbType.VarChar,
-				    255);
-			    sqlParam.Value = userName;
+          
+			  
 			    try
 			    {
-	          conn.Open();
-	          using (SqlDataReader reader = cmd.ExecuteReader())
-	          {
-		        // If a row exists for the user, then the user is valid.
-		        if (reader.Read())
-		          {
-			          isValid = true;
-		          }
-	          }
-          }
+                    using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu"))
+                    {
+                        // code reference https://en.code-bude.net/2013/08/14/how-to-search-for-users-in-active-directory-with-csharp/
+                        //Create a "user object" in the context
+                        UserPrincipal user = new UserPrincipal(pc);
+                      /*  user.Name = userName;
+
+                        //Create the searcher
+                        //pass (our) user object
+                        PrincipalSearcher pS = new PrincipalSearcher();
+                        pS.QueryFilter = user;
+
+                        //Perform the search
+                        if (pS.FindOne() == null)
+                            isValid = false;
+                        else
+                           isValid = true;
+                        */
+
+                    // try this https://msdn.microsoft.com/en-us/library/bb344891(v=vs.110).aspx
+                    UserPrincipal usr = UserPrincipal.FindByIdentity(pc,
+                                           IdentityType.SamAccountName,
+                                           userName);
+
+                    if (usr != null)
+                    {
+                        isValid = true;
+                    }
+
+
+                }
+            }
+          
           catch (Exception ex)
           {
 	          throw new Exception(string.Format(CultureInfo.InvariantCulture,
               CustomSecurity.VerifyError + ex.Message));
           }
+            return isValid;
         }
-     
-        return isValid;
-      }
+      
    }
 }

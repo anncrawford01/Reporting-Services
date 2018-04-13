@@ -114,7 +114,8 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
             }
             else
             {
-               Response.Redirect("logon.aspx");
+                    lblMessage.Text = string.Format(CultureInfo.InvariantCulture, "Invalid Login");
+                    Response.Redirect("logon.aspx");
             }
          }
          catch(Exception ex)

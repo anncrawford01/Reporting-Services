@@ -125,7 +125,7 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
             {
                 using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu"))
                     {
-                                    // validate the credentials
+                            // validate the credentials
                             passwordMatch = pc.ValidateCredentials(suppliedUserName, suppliedPassword);
                 
                     }
