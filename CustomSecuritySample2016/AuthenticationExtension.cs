@@ -176,7 +176,16 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
                     {
                         isValid = true;
                     }
-
+                    else
+                    {
+                        // check for group
+                        // https://stackoverflow.com/questions/26984022/find-active-directory-groups-where-group-name-like
+                        GroupPrincipal grp = GroupPrincipal.FindByIdentity(pc, userName);
+                        if (grp != null)
+                        {
+                            isValid = true;
+                        }
+                    }
 
                 }
             }
