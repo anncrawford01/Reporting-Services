@@ -2,3 +2,15 @@ D:\GIT\Reporting-Services\CustomSecuritySample2016\obj\Debug\CustomSecurity.cspr
 D:\GIT\Reporting-Services\CustomSecuritySample2016\obj\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.App_LocalResources.Logon.aspx.resources
 D:\GIT\Reporting-Services\CustomSecuritySample2016\obj\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.CustomSecurity.resources
 D:\GIT\Reporting-Services\CustomSecuritySample2016\obj\Debug\CustomSecurity.csproj.GenerateResource.Cache
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.App_LocalResources.Logon.aspx.resources
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.CustomSecurity.resources
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\CustomSecurity.csproj.GenerateResource.cache
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\CustomSecurity.csproj.CoreCompileInputs.cache
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\bin\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.dll.config
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\bin\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.dll
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\bin\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.pdb
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\bin\Debug\Microsoft.ReportingServices.Interfaces.dll
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\CustomSecurity.csproj.CopyComplete
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.dll
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\Microsoft.Samples.ReportingServices.CustomSecurity.pdb
+D:\Data\SSRS_SS0\Reporting-Services\CustomSecuritySample2016\obj\Debug\CustomSecurity.csprojAssemblyReference.cache
