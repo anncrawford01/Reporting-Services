@@ -32,6 +32,7 @@ using System.Xml;
 using System.Text;
 using System.Globalization;
 using System.DirectoryServices.AccountManagement; // needed for active directory look up 
+using Ucsb.Sa.Enterprise.Communication.UcsbDirectory;
 
 namespace Microsoft.Samples.ReportingServices.CustomSecurity
 {
@@ -121,22 +122,34 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
             // Use DPAPI (User Store) from Enterprise Services," and "How To:
             // Create a DPAPI Library" on MSDN for more information about 
             // how to use DPAPI to securely store connection strings.
+            /*  try
+              {
+                  using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu"))
+                      {
+                              // validate the credentials
+                              passwordMatch = pc.ValidateCredentials(suppliedUserName, suppliedPassword);
+
+                      }
+               }           
+             catch (Exception ex)
+              {
+                 throw new Exception(string.Format(CultureInfo.InvariantCulture,
+                       CustomSecurity.VerifyUserException + ex.Message));
+              }
+              */
+              // using SA package for netid search. This defaults to my.ucsb.edu
+            SAIdentityAuthenticationDirectorySessionService service = new SAIdentityAuthenticationDirectorySessionService();
+            passwordMatch = true;
             try
             {
-                using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu"))
-                    {
-                            // validate the credentials
-                            passwordMatch = pc.ValidateCredentials(suppliedUserName, suppliedPassword);
-                
-                    }
-             }           
-           catch (Exception ex)
-            {
-               throw new Exception(string.Format(CultureInfo.InvariantCulture,
-                     CustomSecurity.VerifyUserException + ex.Message));
+                service.Authenticate(suppliedUserName, suppliedPassword);
             }
-         
-         return passwordMatch;
+            catch (Exception ex)
+            {
+                string mymsg = ex.Message;   // may use later
+                passwordMatch = false;
+            }
+            return passwordMatch;
       }
 
       // Method to verify that the user name does not contain any

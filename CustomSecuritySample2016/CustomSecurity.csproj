@@ -125,6 +125,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Ucsb.Sa.Enterprise.Communication.UcsbDirectory, Version=1.2.7.0, Culture=neutral, PublicKeyToken=678135109673399c, processorArchitecture=MSIL">
+      <HintPath>packages\Ucsb.Sa.Enterprise.Communication.UcsbDirectory.1.2.46341\lib\Ucsb.Sa.Enterprise.Communication.UcsbDirectory.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_LocalResources\Logon.aspx.Designer.cs">
@@ -180,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

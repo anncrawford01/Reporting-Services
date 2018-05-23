@@ -29,6 +29,8 @@ using System.Web;
 using Microsoft.ReportingServices.Interfaces;
 using System.Globalization;
 using System.DirectoryServices.AccountManagement; // needed for active directory look up 
+using Ucsb.Sa.Enterprise.Communication.UcsbDirectory;
+
 
 namespace Microsoft.Samples.ReportingServices.CustomSecurity
 {
@@ -144,52 +146,24 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
         public static bool VerifyUser(string userName)
       { 
          bool isValid = false;
-          
-			  
-			    try
-			    {
-                    using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu"))
-                    {
-                        // code reference https://en.code-bude.net/2013/08/14/how-to-search-for-users-in-active-directory-with-csharp/
-                        //Create a "user object" in the context
-                        UserPrincipal user = new UserPrincipal(pc);
-                      /*  user.Name = userName;
 
-                        //Create the searcher
-                        //pass (our) user object
-                        PrincipalSearcher pS = new PrincipalSearcher();
-                        pS.QueryFilter = user;
+            // using SA method for directory search ? Not sure how to search for group ?
+            SAIdentityAuthenticationDirectorySessionService service = new SAIdentityAuthenticationDirectorySessionService();
+            try
+            {
+                var data = service.Retrieve(userName, new string[] { });
+                if (data.Rows.Count == 0)
+                {
+                     isValid = false;
 
-                        //Perform the search
-                        if (pS.FindOne() == null)
-                            isValid = false;
-                        else
-                           isValid = true;
-                        */
-
-                    // try this https://msdn.microsoft.com/en-us/library/bb344891(v=vs.110).aspx
-                    UserPrincipal usr = UserPrincipal.FindByIdentity(pc,
-                                           IdentityType.SamAccountName,
-                                           userName);
-
-                    if (usr != null)
-                    {
-                        isValid = true;
-                    }
-                    else
-                    {
-                        // check for group
-                        // https://stackoverflow.com/questions/26984022/find-active-directory-groups-where-group-name-like
-                        GroupPrincipal grp = GroupPrincipal.FindByIdentity(pc, userName);
-                        if (grp != null)
-                        {
-                            isValid = true;
-                        }
-                    }
+                }
+                else
+                {
+                     isValid = true;
 
                 }
             }
-          
+        
           catch (Exception ex)
           {
 	          throw new Exception(string.Format(CultureInfo.InvariantCulture,
