@@ -138,11 +138,11 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
               }
               */
               // using SA package for netid search. This defaults to my.ucsb.edu
-            SAIdentityAuthenticationDirectorySessionService service = new SAIdentityAuthenticationDirectorySessionService();
             passwordMatch = true;
             try
             {
-                service.Authenticate(suppliedUserName, suppliedPassword);
+                SAIdentityAuthenticationDirectorySessionService service2 = new SAIdentityAuthenticationDirectorySessionService();
+                service2.Authenticate(suppliedUserName, suppliedPassword);
             }
             catch (Exception ex)
             {
