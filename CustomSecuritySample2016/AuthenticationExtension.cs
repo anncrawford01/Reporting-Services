@@ -29,7 +29,7 @@ using System.Web;
 using Microsoft.ReportingServices.Interfaces;
 using System.Globalization;
 using System.DirectoryServices.AccountManagement; // needed for active directory look up 
-using Ucsb.Sa.Enterprise.Communication.UcsbDirectory;
+//using Ucsb.Sa.Enterprise.Communication.UcsbDirectory;
 
 
 namespace Microsoft.Samples.ReportingServices.CustomSecurity
@@ -147,21 +147,25 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
       { 
          bool isValid = false;
 
-            // using SA method for directory search ? Not sure how to search for group ?
-            SAIdentityAuthenticationDirectorySessionService service = new SAIdentityAuthenticationDirectorySessionService();
+            // Serch for username only Not sure how to search for group ?
+           
             try
             {
-                var data = service.Retrieve(userName, new string[] { });
-                if (data.Rows.Count == 0)
-                {
-                     isValid = false;
+                //connect to the directory with the username password of report server service acct.
+                PrincipalContext domain = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu", "sa\\ISVC_BIReportsDEV", "CiQ`vJu.o#!B98sRe)");
+                // Search for the user in the domain:
+                UserPrincipal findUser = new UserPrincipal(domain);
+                findUser.SamAccountName = userName;
+                PrincipalSearcher searcher = new PrincipalSearcher();
 
-                }
-                else
+                searcher.QueryFilter = findUser;
+                UserPrincipal foundUser = (UserPrincipal)searcher.FindOne();
+
+                if (foundUser != null)
                 {
                      isValid = true;
-
                 }
+                             
             }
         
           catch (Exception ex)

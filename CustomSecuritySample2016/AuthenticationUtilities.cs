@@ -32,7 +32,7 @@ using System.Xml;
 using System.Text;
 using System.Globalization;
 using System.DirectoryServices.AccountManagement; // needed for active directory look up 
-using Ucsb.Sa.Enterprise.Communication.UcsbDirectory;
+//using Ucsb.Sa.Enterprise.Communication.UcsbDirectory;
 
 namespace Microsoft.Samples.ReportingServices.CustomSecurity
 {
@@ -117,40 +117,31 @@ namespace Microsoft.Samples.ReportingServices.CustomSecurity
            string suppliedPassword)
         { 
           bool passwordMatch = false;
+            // code referenced from these sites
+            // https://stackoverflow.com/questions/1519263/a-local-error-has-occurred-while-connecting-to-ad-in-windows-2008-server
+            // principal context https://docs.microsoft.com/en-us/dotnet/api/?view=netframework-4.7.1&term=PrincipalContext
             // Get the salt and pwd from the database based on the user name.
             // See "How To: Use DPAPI (Machine Store) from ASP.NET," "How To:
             // Use DPAPI (User Store) from Enterprise Services," and "How To:
             // Create a DPAPI Library" on MSDN for more information about 
             // how to use DPAPI to securely store connection strings.
-            /*  try
+            PrincipalContext domain;
+            passwordMatch = false;
+            try
               {
-                  using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu"))
-                      {
-                              // validate the credentials
-                              passwordMatch = pc.ValidateCredentials(suppliedUserName, suppliedPassword);
-
-                      }
+                //connect to the directory with the username password of report server service acct.
+                domain = new PrincipalContext(ContextType.Domain, "dev.my.ucsb.edu", "sa\\ISVC_BIReportsDEV", "CiQ`vJu.o#!B98sRe)");
+                // validate the credentials
+                passwordMatch = domain.ValidateCredentials(suppliedUserName, suppliedPassword);       
                }           
-             catch (Exception ex)
+            catch (Exception ex)
               {
                  throw new Exception(string.Format(CultureInfo.InvariantCulture,
                        CustomSecurity.VerifyUserException + ex.Message));
               }
-              */
-              // using SA package for netid search. This defaults to my.ucsb.edu
-            passwordMatch = true;
-            try
-            {
-                SAIdentityAuthenticationDirectorySessionService service2 = new SAIdentityAuthenticationDirectorySessionService();
-                service2.Authenticate(suppliedUserName, suppliedPassword);
-            }
-            catch (Exception ex)
-            {
-                string mymsg = ex.Message;   // may use later
-                passwordMatch = false;
-            }
+                          
             return passwordMatch;
-      }
+        }
 
       // Method to verify that the user name does not contain any
       // illegal characters. If My Reports is enabled, illegal characters
